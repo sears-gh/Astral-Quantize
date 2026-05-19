@@ -22,9 +22,10 @@ export function currentCost(i: number): number {
 // Retroactively reflects upper-layer bonuses: bonusFromAbove[i] recomputes from all trigger counts,
 // so a Layer n+2 trigger instantly updates bonusFromAbove[n] through the full chain.
 export function getBonusFromAbove(): number[] {
+  const last = LAYER_COUNT - 2;
   const bfa = new Array<number>(LAYER_COUNT - 1).fill(1);
-  bfa[8] = 1 + gs.layerTriggerCounts[9] * BASE_ADDITION;
-  for (let i = 7; i >= 0; i--) {
+  bfa[last] = 1 + gs.layerTriggerCounts[LAYER_COUNT - 1] * BASE_ADDITION;
+  for (let i = last - 1; i >= 0; i--) {
     bfa[i] = 1 + gs.layerTriggerCounts[i + 1] * BASE_ADDITION * bfa[i + 1];
   }
   return bfa;

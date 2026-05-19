@@ -3,7 +3,7 @@
   import { gs, getBonusFromAbove, getAstralMult, currentCost } from '../game/state.svelte';
   import { fmt, fmtMult } from '../game/format';
   import {
-    BASE_ADDITION, LAYER_NAMES, LAYER_COLORS, LAYER_PROD_RATE, ASTRAL_RATE,
+    BASE_ADDITION, LAYER_COUNT, LAYER_NAMES, LAYER_COLORS, LAYER_PROD_RATE, ASTRAL_RATE,
   } from '../game/config';
 
   let { index }: { index: number } = $props();
@@ -28,7 +28,7 @@
   );
 
   const nextAdd = $derived(
-    BASE_ADDITION * (index < 9 ? getBonusFromAbove()[index] : 1)
+    BASE_ADDITION * (index < LAYER_COUNT - 1 ? getBonusFromAbove()[index] : 1)
   );
 
   const progress = $derived(
