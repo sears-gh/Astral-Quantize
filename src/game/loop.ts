@@ -1,5 +1,5 @@
 import {
-  ASTRAL_RATE, CLICK_ASTRAL,
+  ASTRAL_RATE,
   LAYER_COUNT, LAYER_PROD_RATE, THRESHOLD_MULT,
 } from './config';
 import { gs, getAstralMult, currentCost } from './state.svelte';
@@ -48,10 +48,6 @@ export function buyLayer(i: number): void {
   }
 }
 
-export function clickAstral(): void {
-  gs.astral += CLICK_ASTRAL;
-  applyProgress(CLICK_ASTRAL);
-}
 
 export function astralPerSec(): number {
   return gs.layerCounts[0] * ASTRAL_RATE * getAstralMult();
