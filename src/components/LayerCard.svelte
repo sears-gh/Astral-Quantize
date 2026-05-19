@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { buyLayer } from '../game/loop';
-  import { gs, getBonusFromAbove, getAstralMult } from '../game/state.svelte';
+  import { buyLayer, astralPerSec } from '../game/loop';
+  import { gs, getBonusFromAbove, getAstralMult, currentCost } from '../game/state.svelte';
   import { fmt, fmtMult } from '../game/format';
   import {
     BASE_ADDITION, LAYER_NAMES, LAYER_COLORS, LAYER_PROD_RATE, ASTRAL_RATE,
@@ -35,7 +35,13 @@
     Math.min(gs.layerProgress[index] / gs.layerThresholds[index], 1)
   );
 
-  const canBuy = $derived(gs.astral >= gs.layerCosts[index]);
+  const cost = $derived(currentCost(index));
+  const canBuy = $derived(gs.astral >= cost);
+
+  // Progress within the current batch of 10 (e.g. "7/10")
+  const batchProgress = $derived(gs.layerPurchased[index] % 10);
+  // Next batch milestone halves the threshold
+  const toNextBatch = $derived(10 - batchProgress);
 </script>
 
 <div class="layer-card" style="--layer-color: {color}">
@@ -53,6 +59,10 @@
     <div class="stat">
       <span class="stat-label">{bonusTarget}</span>
       <span class="stat-value glow">{bonusLabel}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Purchased</span>
+      <span class="stat-value">{gs.layerPurchased[index]} <span class="batch-tag">{batchProgress}/10</span></span>
     </div>
   </div>
 
@@ -72,7 +82,10 @@
     disabled={!canBuy}
     onclick={() => buyLayer(index)}
   >
-    Buy 1 — {fmt(gs.layerCosts[index])} Astral
+    Buy 1 — {fmt(cost)} Astral
+    {#if toNextBatch <= 3}
+      <span class="batch-hint">({toNextBatch} to threshold ÷2)</span>
+    {/if}
   </button>
 </div>
 
@@ -182,6 +195,18 @@
 
   .trigger-add {
     color: color-mix(in srgb, var(--layer-color) 60%, #505080);
+  }
+
+  .batch-tag {
+    font-size: 0.6rem;
+    color: #505080;
+    margin-left: 2px;
+  }
+
+  .batch-hint {
+    font-size: 0.65rem;
+    opacity: 0.7;
+    margin-left: 6px;
   }
 
   .buy-btn {
