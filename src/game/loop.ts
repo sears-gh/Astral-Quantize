@@ -48,10 +48,6 @@ export function buyLayer(i: number): void {
   }
 }
 
-export function clickAstral(): void {
-  gs.astral += CLICK_ASTRAL;
-  applyProgress(CLICK_ASTRAL);
-}
 
 export function astralPerSec(): number {
   return gs.layerCounts[0] * ASTRAL_RATE * getAstralMult();

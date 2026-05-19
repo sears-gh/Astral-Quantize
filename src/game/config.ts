@@ -23,8 +23,6 @@ export const INITIAL_THRESHOLD = [
 ];
 export const THRESHOLD_MULT = 2;
 
-export const CLICK_ASTRAL = 1;
-
 export const LAYER_COLORS = [
   '#ffd700', '#a0c0ff', '#40ffcc', '#60ffaa',
   '#c0ff60', '#ffaa40', '#ff7070', '#ff50ff',

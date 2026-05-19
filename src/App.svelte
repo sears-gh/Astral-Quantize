@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { tick, clickAstral, astralPerSec } from './game/loop';
+  import { tick, astralPerSec } from './game/loop';
   import { gs, getAstralMult } from './game/state.svelte';
   import { fmt, fmtMult } from './game/format';
   import { LAYER_COUNT } from './game/config';
@@ -29,9 +29,6 @@
         <span>{fmt(astralPerSec())}/s</span>
         <span class="mult">{fmtMult(getAstralMult())} multiplier</span>
       </div>
-      <button class="click-btn" onclick={clickAstral}>
-        Click +1 Astral
-      </button>
     </div>
   </header>
 
@@ -113,29 +110,7 @@
     font-size: 0.75rem;
   }
 
-  .click-btn {
-    margin-left: auto;
-    background: #10103a;
-    border: 1px solid #4040a0;
-    border-radius: 8px;
-    color: #a0a0ff;
-    padding: 10px 18px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-
-  .click-btn:hover {
-    background: #18184a;
-    box-shadow: 0 0 12px rgba(80, 80, 200, 0.4);
-  }
-
-  .click-btn:active {
-    transform: scale(0.97);
-  }
-
-  .layers {
+.layers {
     display: flex;
     flex-direction: column;
     gap: 8px;
