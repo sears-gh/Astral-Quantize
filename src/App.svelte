@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { tick, clickAstral, astralPerSec } from './game/loop';
-  import { gs } from './game/state.svelte';
+  import { gs, getAstralMult } from './game/state.svelte';
   import { fmt, fmtMult } from './game/format';
   import { LAYER_COUNT } from './game/config';
   import LayerCard from './components/LayerCard.svelte';
@@ -27,7 +27,7 @@
       </div>
       <div class="rate-info">
         <span>{fmt(astralPerSec())}/s</span>
-        <span class="mult">{fmtMult(gs.astralMult)} multiplier</span>
+        <span class="mult">{fmtMult(getAstralMult())} multiplier</span>
       </div>
       <button class="click-btn" onclick={clickAstral}>
         Click +1 Astral

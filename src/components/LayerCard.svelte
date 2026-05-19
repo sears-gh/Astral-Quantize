@@ -1,6 +1,6 @@
 <script lang="ts">
   import { buyLayer } from '../game/loop';
-  import { gs } from '../game/state.svelte';
+  import { gs, getBonusFromAbove, getAstralMult } from '../game/state.svelte';
   import { fmt, fmtMult } from '../game/format';
   import {
     BASE_ADDITION, LAYER_NAMES, LAYER_COLORS, LAYER_PROD_RATE, ASTRAL_RATE,
@@ -19,18 +19,17 @@
 
   const bonusLabel = $derived(
     index === 0
-      ? fmtMult(gs.astralMult)
-      : fmtMult(gs.bonusFromAbove[index - 1])
+      ? fmtMult(getAstralMult())
+      : fmtMult(getBonusFromAbove()[index - 1])
   );
 
   const bonusTarget = $derived(
     index === 0 ? 'Astral Mult' : `${LAYER_NAMES[index - 1]} Bonus`
   );
 
-  const nextAdd = $derived(() => {
-    const upper = index < 9 ? gs.bonusFromAbove[index] : 1;
-    return BASE_ADDITION * upper;
-  });
+  const nextAdd = $derived(
+    BASE_ADDITION * (index < 9 ? getBonusFromAbove()[index] : 1)
+  );
 
   const progress = $derived(
     Math.min(gs.layerProgress[index] / gs.layerThresholds[index], 1)
@@ -63,7 +62,7 @@
     </div>
     <div class="trigger-info">
       <span>{fmt(gs.layerProgress[index])} / {fmt(gs.layerThresholds[index])} Astral</span>
-      <span class="trigger-add">+{fmt(nextAdd())} per trigger</span>
+      <span class="trigger-add">+{fmt(nextAdd)} per trigger</span>
     </div>
   </div>
 
