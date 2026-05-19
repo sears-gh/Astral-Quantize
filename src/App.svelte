@@ -4,10 +4,21 @@
   import { gs, getAstralMult } from './game/state.svelte';
   import { fmt, fmtMult } from './game/format';
   import { LAYER_COUNT } from './game/config';
-  import { saveGame, loadGame } from './game/save';
+  import { saveGame, loadGame, resetGame } from './game/save';
   import LayerCard from './components/LayerCard.svelte';
 
   loadGame();
+
+  let confirmingReset = $state(false);
+
+  function handleReset() {
+    if (!confirmingReset) {
+      confirmingReset = true;
+      return;
+    }
+    resetGame();
+    confirmingReset = false;
+  }
 
   onMount(() => {
     let rafId: number;
@@ -39,6 +50,15 @@
       <div class="rate-info">
         <span>{fmt(astralPerSec())}/s</span>
         <span class="mult">{fmtMult(getAstralMult())} multiplier</span>
+      </div>
+      <div class="reset-wrap">
+        {#if confirmingReset}
+          <span class="reset-confirm-label">本当にリセットしますか？</span>
+          <button class="reset-btn confirm" onclick={handleReset}>はい</button>
+          <button class="reset-btn cancel" onclick={() => confirmingReset = false}>いいえ</button>
+        {:else}
+          <button class="reset-btn" onclick={handleReset}>リセット</button>
+        {/if}
       </div>
     </div>
   </header>
@@ -121,9 +141,57 @@
     font-size: 0.75rem;
   }
 
-.layers {
+  .layers {
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .reset-wrap {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .reset-confirm-label {
+    font-size: 0.75rem;
+    color: #ff8080;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid #3a2a2a;
+    border-radius: 6px;
+    color: #806060;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .reset-btn:hover {
+    border-color: #804040;
+    color: #ff8080;
+  }
+
+  .reset-btn.confirm {
+    border-color: #804040;
+    color: #ff6060;
+  }
+
+  .reset-btn.confirm:hover {
+    background: rgba(200, 50, 50, 0.15);
+  }
+
+  .reset-btn.cancel {
+    border-color: #2a3a2a;
+    color: #608060;
+  }
+
+  .reset-btn.cancel:hover {
+    border-color: #408040;
+    color: #80c080;
   }
 </style>
