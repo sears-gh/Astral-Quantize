@@ -1,5 +1,5 @@
 import {
-  ASTRAL_RATE, CLICK_ASTRAL,
+  ASTRAL_RATE,
   LAYER_COUNT, LAYER_PROD_RATE, THRESHOLD_MULT,
 } from './config';
 import { gs, getAstralMult, currentCost } from './state.svelte';
