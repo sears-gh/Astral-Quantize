@@ -15,8 +15,9 @@ export const COST_MULT = 1.15;
 
 export const BASE_ADDITION = 0.1;
 
+// Each threshold is ~5× the layer's base cost, so bonuses trigger after you can already buy the layer
 export const INITIAL_THRESHOLD = [
-  10, 50, 500, 5_000, 5e4, 5e5, 5e6, 5e7, 5e8, 5e9,
+  50, 1_000, 15_000, 250_000, 4e6, 6e7, 9e8, 1.35e10, 2e11, 3e12,
 ];
 export const THRESHOLD_MULT = 2;
 
