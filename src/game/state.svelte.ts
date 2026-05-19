@@ -15,7 +15,7 @@ export const gs = $state({
 // Price is fixed within each batch of 10; after every 10 purchases: ×10^(i+1)
 export function currentCost(i: number): number {
   const batch = Math.floor(gs.layerPurchased[i] / 10);
-  return BASE_COST[i] * Math.pow(10, (i + 1) * batch);
+  return BASE_COST[i] * Math.pow(10, (i + 2) * batch);
 }
 
 // Functions reading $state are reactive when called inside $derived or other reactive contexts.
