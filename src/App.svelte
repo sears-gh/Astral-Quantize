@@ -4,7 +4,10 @@
   import { gs, getAstralMult } from './game/state.svelte';
   import { fmt, fmtMult } from './game/format';
   import { LAYER_COUNT } from './game/config';
+  import { saveGame, loadGame } from './game/save';
   import LayerCard from './components/LayerCard.svelte';
+
+  loadGame();
 
   onMount(() => {
     let rafId: number;
@@ -13,7 +16,15 @@
       rafId = requestAnimationFrame(frame);
     }
     rafId = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(rafId);
+
+    const saveInterval = setInterval(saveGame, 10_000);
+    window.addEventListener('beforeunload', saveGame);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearInterval(saveInterval);
+      window.removeEventListener('beforeunload', saveGame);
+    };
   });
 </script>
 
