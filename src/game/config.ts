@@ -10,9 +10,8 @@ export const LAYER_PROD_RATE = 0.1;
 
 // Cost per unit for the first batch of 10.
 // After every 10 purchases: cost *= 10^(layer index + 1)
-export const BASE_COST = [
-  10, 100, 5_000, 2e5, 1e7, 5e8, 2.5e10, 1.2e12, 6e13, 3e15,
-];
+// Layer n (1-indexed): initial cost = 10^n
+export const BASE_COST = [1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10];
 
 export const BASE_ADDITION = 0.1;
 
